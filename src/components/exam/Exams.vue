@@ -11,8 +11,8 @@
       <!--        搜索与添加-->
       <el-row :gutter="20">
         <el-col :span="8">
-          <el-input placeholder="请输入内容"
-            ><el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入查询的考试名称" v-model="search"
+            ><el-button slot="append" icon="el-icon-search" @click="getSearchResults()"></el-button>
           </el-input>
         </el-col>
         <el-col :span="3">
@@ -45,19 +45,9 @@
           </template>
         </el-table-column>
       </el-table>
-      <!--        分页-->
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage3"
-        :page-size="10"
-        layout="total, prev, pager, next, jumper"
-        :total="total"
-      >
-      </el-pagination>
     </el-card>
 
-    <!--      添加用户对话框-->
+    <!--      添加考试对话框-->
     <el-dialog
       title="添加一次考试"
       :visible.sync="addDialogVisible"
@@ -91,7 +81,7 @@
         <el-button type="primary" @click="addExam">确 定</el-button>
       </span>
     </el-dialog>
-    <!--    修改用户对话框-->
+    <!--    修改考试对话框-->
     <el-dialog
       title="修改考试"
       :visible.sync="editDialogVisible"
@@ -120,6 +110,7 @@
           </el-col>
         </el-form-item>
       </el-form>
+<!--      确定、取消按钮-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="editExam">确 定</el-button>
@@ -140,6 +131,10 @@ export default {
       total: 0,
       // 控制添加考试对话框的显示与隐藏
       addDialogVisible: false,
+      // 当前页面
+      currentPage: 1,
+      // 搜索字段
+      search: '',
       // 添加用户表单数据
       addForm: {
         exam_name: '',
@@ -175,17 +170,16 @@ export default {
   methods: {
     // 获取所有考试列表
     async getExamList() {
-      const res = await this.$http.get('exams')
-      if (res.status !== 200) return this.$message.error('获取用户列表失败！')
+      const res = await this.$http.get('exams/?search=' + this.search)
+      if (res.status !== 200) return this.$message.error('获取考试列表失败！')
       this.examlist = res.data
       this.total = res.data.length
       console.log(this.total)
     },
-    handleSizeChange(newsize) {
-      console.log(newsize)
-    },
-    handleCurrentChange(newPage) {
-      console.log(newPage)
+    // 获取搜索结果
+    getSearchResults() {
+      this.currentPage = 1
+      this.getExamList()
     },
     // 监听添加考试的对话框关闭事件
     addDialogClosed() {
@@ -196,19 +190,19 @@ export default {
       this.$refs.addFormRef.validate(async valid => {
         if (!valid) return
         const res = await this.$http.post('exams/', this.addForm)
-        if (res.status !== 201) this.$message.error('添加用户失败')
-        this.$message.success('添加用户成功')
+        if (res.status !== 201) this.$message.error('添加考试失败')
+        this.$message.success('添加考试成功')
         // 隐藏添加考试对话框
         this.addDialogVisible = false
         // 重新获取考试列表数据
         this.getExamList()
       })
     },
-    // 编辑用户对话框显示
+    // 编辑考试对话框显示
     async showEditDialog(examId) {
       console.log(examId)
       const res = await this.$http.get('exams/' + examId)
-      if (res.status !== 200) return this.$message.error('查询用户信息失败')
+      if (res.status !== 200) return this.$message.error('查询考试信息失败')
       this.editForm = res.data
       console.log(this.editForm)
       this.editDialogVisible = true
@@ -225,8 +219,8 @@ export default {
           exam_name: this.editForm.exam_name,
           exam_time: this.editForm.exam_time
         })
-        if (res.status !== 200) this.$message.error('修改用户失败')
-        this.$message.success('修改用户成功')
+        if (res.status !== 200) this.$message.error('修改考试失败')
+        this.$message.success('修改考试成功')
         // 隐藏添加考试对话框
         this.editDialogVisible = false
         // 重新获取考试列表数据
@@ -251,7 +245,7 @@ export default {
       if (res.status !== 204) {
         return this.$message.error('删除失败')
       }
-      this.$message.success('删除用户成功')
+      this.$message.success('删除考试成功')
       this.getExamList()
     }
   }

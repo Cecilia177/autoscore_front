@@ -98,9 +98,9 @@ export default {
     },
     // 获取所有考试列表
     async getExamList() {
-      const res = await this.$http.get('exams')
-      this.examlist = res.data
-      console.log(this.examlist)
+      const { data: res } = await this.$http.get('exams')
+      this.examlist = res['results']
+      console.log('examlist: ' + this.examlist)
     }
   }
 }
