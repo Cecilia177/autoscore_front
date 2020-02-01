@@ -6,6 +6,7 @@ import Welcome from '../components/Welcome'
 import Exams from '../components/exam/Exams'
 import Questions from '../components/exam/Questions'
 import Students from '../components/student/Students'
+import Answers from '../components/student/Answers'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,7 @@ const routes = [
     redirect: '/welcome',
     children: [
       { path: '/welcome', component: Welcome }, { path: '/exams', component: Exams }, { path: '/questions', component: Questions },
-      { path: '/students', component: Students }
+      { path: '/students', component: Students }, { path: '/answers', component: Answers }
     ] }
 ]
 

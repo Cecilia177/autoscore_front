@@ -43,13 +43,13 @@
             <el-menu-item index="/students">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>学生名单导入</span>
+                <span>学生名单管理</span>
               </template>
             </el-menu-item>
             <el-menu-item index="/answers">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>学生试卷导入</span>
+                <span>学生作答导入</span>
               </template>
             </el-menu-item>
           </el-submenu>
@@ -61,10 +61,10 @@
               <span>成绩管理</span>
             </template>
             <!--            二级菜单-->
-            <el-menu-item :index="'/exam' + exam.id" v-for="exam in examlist" :key="exam.id">
+            <el-menu-item index="/autoscoring">
               <template slot="title">
                 <i class="el-icon-location"></i>
-                <span>{{exam.exam_name}}</span>
+                <span>自动评分</span>
               </template>
             </el-menu-item>
           </el-submenu>
