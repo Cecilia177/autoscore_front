@@ -323,7 +323,7 @@ export default {
       this.examOptions = res.data
       // console.log(this.examOptions)
     },
-    // 监听页码变动时间
+    // 监听页码变动事件
     handleCurrentChange(newPage) {
       console.log(newPage)
       this.currentPage = newPage

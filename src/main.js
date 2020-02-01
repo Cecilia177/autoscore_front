@@ -6,6 +6,8 @@ import locale from 'element-ui/lib/locale/lang/en'
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/css/global.css'
 import axios from 'axios'
+import XLSX from 'xlsx'
+
 // 配置请求根路径
 axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
 axios.interceptors.request.use(config => {
@@ -19,6 +21,8 @@ Vue.prototype.$http = axios
 Vue.use(ElementUI, { locale })
 
 Vue.use(ElementUI, { locale })
+
+Vue.use(XLSX)
 
 Vue.config.productionTip = false
 

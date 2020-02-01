@@ -95,12 +95,6 @@ export default {
     logout() {
       window.sessionStorage.clear()
       this.$router.push('/login')
-    },
-    // 获取所有考试列表
-    async getExamList() {
-      const { data: res } = await this.$http.get('exams')
-      this.examlist = res['results']
-      console.log('examlist: ' + this.examlist)
     }
   }
 }
